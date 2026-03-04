@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>SafeClinic - Registration</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="../assets/style.css">
 </head>
-<body>
+<body class="auth-page">
     <div class="container">
         <h2>🏥 SafeClinic</h2>
         <p>Patient Registration</p>

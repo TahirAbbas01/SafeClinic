@@ -1,22 +1,25 @@
 <?php
 session_start();
-
-// Static credentials jo aapne bataye
-$static_user = "tahirabbas3016@gmail.com";
-$static_pass = "123";
+include('../includes/db_connect.php'); // Include DB connection
 
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    if ($username === $static_user && $password === $static_pass) {
-        $_SESSION['user_id'] = 1;
-        $_SESSION['username'] = "Tahir Abbas";
-        $_SESSION['role'] = "admin"; // Static role
+    // Vulnerable SQL implementation (No escaping)
+    $sql = "SELECT id, username, full_name, role FROM users WHERE username='$username' AND password='$password'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['full_name'] = $user['full_name'];
+        $_SESSION['role'] = $user['role'];
         header("Location: dashboard.php");
         exit();
     } else {
-        $error = "Wronge Username ya Password!";
+        $error = "Wrong Username or Password!";
     }
 }
 ?>
@@ -26,9 +29,9 @@ if (isset($_POST['login'])) {
 <head>
     <meta charset="UTF-8">
     <title>SafeClinic - Login</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="../assets/style.css">
 </head>
-<body>
+<body class="auth-page">
     <div class="container">
         <h2>🏥 SafeClinic</h2>
         <p>Staff & Patient Portal</p>
