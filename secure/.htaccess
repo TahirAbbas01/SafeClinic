@@ -1,0 +1,79 @@
+# SafeClinic Secure - Security Configuration
+
+# STEP 5: Force HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Block access to configuration files
+<FilesMatch "\.env|config\.php|db_connect\.php|logger\.php">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to log files
+<FilesMatch "\.log$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Prevent directory listing
+Options -Indexes
+
+# Disable PHP execution in upload/log directories (if any)
+<Directory "*/temp/*">
+    php_flag engine off
+</Directory>
+
+# Security Headers
+<IfModule mod_headers.c>
+    # Prevent clickjacking attacks
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Enable XSS protection
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Control referrer information
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Force HTTPS for next 1 year (HSTS)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# Disable execution of specific file types
+<FilesMatch "\.(sql|bak|zip|txt)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Set appropriate MIME types
+<IfModule mod_mime.c>
+    AddType application/x-httpd-php .php
+    AddType text/css .css
+    AddType application/javascript .js
+</IfModule>
+
+# Gzip compression for better performance
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json
+</IfModule>
+
+# Cache control for static assets
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/png "access plus 30 days"
+    ExpiresByType image/jpeg "access plus 30 days"
+    ExpiresByType text/css "access plus 30 days"
+    ExpiresByType application/javascript "access plus 30 days"
+</IfModule>
+
+# Remove server signature (don't advertise Apache version)
+Header always unset Server
+ServerTokens Prod
+
+# Prevent inline scripts (CSP - Content Security Policy)
+# This prevents XSS attacks by restricting script sources
+Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'");

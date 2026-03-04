@@ -29,7 +29,6 @@ if ($role == 'admin') {
 } elseif ($role == 'doctor') {
     $total_patients = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as c FROM patients"))['c'];
     $total_records = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as c FROM medical_records"))['c'];
-    $pending_reports = 3; // Static mockup
 } else {
     $p_dob = mysqli_fetch_assoc(mysqli_query($conn, "SELECT date_of_birth FROM patients WHERE id='$patient_id'"))['date_of_birth'];
     $my_records = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as c FROM medical_records WHERE patient_id='$patient_id'"))['c'];
@@ -55,20 +54,14 @@ if ($role == 'admin') {
         </div>
  
         <nav>
-            <a href="#">🏠 Overview</a>
-           
             <?php if($role == 'admin'): ?>
-                <a href="#">👥 Manage Users</a>
-                <a href="#">🛡️ Security Logs</a>
-                <a href="#">⚙️ System Settings</a>
+                <a href="manage_users.php">👥 Manage Users</a>
             <?php elseif($role == 'doctor'): ?>
-                <a href="#">📅 Appointments</a>
-                <a href="#">🩺 Patient Records</a>
-                <a href="#">💊 Prescriptions</a>
+                <a href="manage_records.php">🩺 Medical Records (CRUD)</a>
+            <?php elseif($role == 'nurse'): ?>
+                <a href="update_vitals.php">📝 Update Vitals/Notes</a>
             <?php else: ?>
                 <a href="view_record.php?id=<?php echo $patient_id; ?>">📁 My Medical Records</a>
-                <a href="#">📅 Book Visit</a>
-                <a href="#">💳 Billing</a>
             <?php endif; ?>
  
             <a href="logout.php" class="logout">🚪 Logout</a>
@@ -89,11 +82,9 @@ if ($role == 'admin') {
             <?php elseif($role == 'doctor'): ?>
                 <div class="card"><h3>Patients Registered</h3><p><?php echo $total_patients; ?></p></div>
                 <div class="card"><h3>Total Medical Records</h3><p><?php echo $total_records; ?></p></div>
-                <div class="card"><h3>Pending Reports</h3><p><?php echo $pending_reports; ?></p></div>
             <?php else: ?>
                 <div class="card"><h3>Date of Birth</h3><p><?php echo $db_dob; ?></p></div>
                 <div class="card"><h3>Total Records</h3><p><?php echo $my_records; ?></p></div>
-                <div class="card"><h3>Upcoming Appointment</h3><p>March 15</p></div>
             <?php endif; ?>
         </div>
  

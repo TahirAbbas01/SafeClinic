@@ -34,8 +34,13 @@ CREATE TABLE medical_records (
 INSERT INTO users (username, password, role, full_name) VALUES 
 ('admin_user', 'admin123', 'admin', 'System Administrator'),
 ('dr_smith', 'doctor456', 'doctor', 'Dr. John Smith'),
-('nurse_joy', 'nurse789', 'nurse', 'Joy Nurse'),
-('patient_zero', 'password', 'patient', 'Alice Patient');
+('nurse_joy', 'nurse789', 'nurse', 'Nurse Joy'),
+('patient_zero', 'password', 'patient', 'Alice Patient'),
+('patient_one', 'password123', 'patient', 'Bob Johnson');
 
-INSERT INTO patients (user_id, date_of_birth, address) VALUES (4, '1995-05-15', '123 Health St.');
-INSERT INTO medical_records (patient_id, diagnosis, treatment) VALUES (1, 'Seasonal Flu', 'Rest and hydration');
+INSERT INTO patients (user_id, date_of_birth, address) VALUES 
+(4, '1995-05-15', '123 Health St.'),
+(5, '1988-03-20', '456 Wellness Ave.');
+INSERT INTO medical_records (patient_id, diagnosis, treatment) VALUES 
+(1, 'Seasonal Flu', 'Rest and hydration'),
+(2, 'Hypertension', 'Lisinopril 10mg daily, low-sodium diet');
