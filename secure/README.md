@@ -6,6 +6,8 @@ This folder contains a **security-hardened version** of the SafeClinic medical a
 
 **Status:** ✅ All 5 security steps implemented and documented
 
+**Database:** Uses separate database `safeclinic_db_secure` with bcrypt passwords and audit logging
+
 ---
 
 ## 📚 Quick Navigation
@@ -15,6 +17,9 @@ This folder contains a **security-hardened version** of the SafeClinic medical a
 
 ### For Learning Security
 👉 Read this: [**SECURITY_DOCUMENTATION.md**](SECURITY_DOCUMENTATION.md) (comprehensive guide)
+
+### For Database Setup
+👉 Run: `/secure/sql/init_db_secure.sql` to create `safeclinic_db_secure` database
 
 ### For HTTPS Setup
 👉 Follow this: [**HTTPS_CERTIFICATE_SETUP.md**](HTTPS_CERTIFICATE_SETUP.md) (5-10 minutes)

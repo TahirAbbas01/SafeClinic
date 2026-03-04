@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../includes/db_connect.php');
+include('includes/db_connect.php');
 
 if (isset($_POST['register'])) {
     // Vulnerable to SQL Injection and XSS

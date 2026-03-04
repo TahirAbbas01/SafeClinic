@@ -1,9 +1,9 @@
 # SafeClinic Secure - Security Configuration
 
-# STEP 5: Force HTTPS
+# STEP 5: Force HTTPS (disabled for localhost HTTP testing)
 RewriteEngine On
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Block access to configuration files
 <FilesMatch "\.env|config\.php|db_connect\.php|logger\.php">
@@ -20,27 +20,24 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # Prevent directory listing
 Options -Indexes
 
-# Disable PHP execution in upload/log directories (if any)
-<Directory "*/temp/*">
+# Disable PHP execution in specific locations
+<FilesMatch "\.(log|tmp)$">
     php_flag engine off
-</Directory>
+</FilesMatch>
 
 # Security Headers
 <IfModule mod_headers.c>
     # Prevent clickjacking attacks
-    Header always set X-Frame-Options "SAMEORIGIN"
+    Header set X-Frame-Options "SAMEORIGIN"
     
     # Prevent MIME type sniffing
-    Header always set X-Content-Type-Options "nosniff"
+    Header set X-Content-Type-Options "nosniff"
     
     # Enable XSS protection
-    Header always set X-XSS-Protection "1; mode=block"
+    Header set X-XSS-Protection "1; mode=block"
     
     # Control referrer information
-    Header always set Referrer-Policy "strict-origin-when-cross-origin"
-    
-    # Force HTTPS for next 1 year (HSTS)
-    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
 # Disable execution of specific file types
@@ -69,11 +66,3 @@ Options -Indexes
     ExpiresByType text/css "access plus 30 days"
     ExpiresByType application/javascript "access plus 30 days"
 </IfModule>
-
-# Remove server signature (don't advertise Apache version)
-Header always unset Server
-ServerTokens Prod
-
-# Prevent inline scripts (CSP - Content Security Policy)
-# This prevents XSS attacks by restricting script sources
-Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'");

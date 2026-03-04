@@ -6,7 +6,7 @@
  */
 
 session_start();
-include('../includes/db_connect.php');
+include('includes/db_connect.php');
 
 // Vulnerable: No proper access control check
 if (!isset($_SESSION['username'])) {

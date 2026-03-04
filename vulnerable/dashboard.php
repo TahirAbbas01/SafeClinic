@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../includes/db_connect.php'); // Path updated
+include('includes/db_connect.php'); // Path updated
  
 // Agar user login nahi hai toh wapis bhej do
 if (!isset($_SESSION['username'])) {

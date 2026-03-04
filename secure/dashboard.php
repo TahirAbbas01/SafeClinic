@@ -7,9 +7,9 @@
  */
 
 session_start();
-include('../includes/db_connect.php');
-include('../includes/config.php');
-include('../includes/logger.php');
+include('includes/db_connect.php');
+include('includes/config.php');
+include('includes/logger.php');
 
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {

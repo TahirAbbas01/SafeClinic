@@ -1,6 +1,6 @@
 -- Create the database
-CREATE DATABASE safeclinic_db;
-USE safeclinic_db;
+CREATE DATABASE safeclinic_db_vulnerable;
+USE safeclinic_db_vulnerable;
 
 -- Table: users (Vulnerable version: Plain-text passwords)
 CREATE TABLE users (

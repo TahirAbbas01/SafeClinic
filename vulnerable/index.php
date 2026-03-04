@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('../includes/db_connect.php'); // Include DB connection
+include('includes/db_connect.php'); // Include DB connection
 
 if (isset($_POST['login'])) {
     $username = $_POST['username'];

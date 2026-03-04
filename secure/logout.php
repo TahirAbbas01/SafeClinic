@@ -6,7 +6,7 @@
  */
 
 session_start();
-include('../includes/logger.php');
+include('includes/logger.php');
 
 // Log logout event
 if (isset($_SESSION['user_id'])) {
